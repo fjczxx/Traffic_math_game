@@ -750,6 +750,230 @@ canvas#intersection-canvas {
   .level-grid { grid-template-columns: repeat(2,1fr); }
   #screen-game { overflow-y: auto; height: auto; min-height: 100vh; }
 }
+
+/* ═══════════════ SCHOLAR'S WORKSHOP ═══════════════ */
+.workshop-panel {
+  flex: 1 1 0;
+  min-width: 220px;
+  max-width: 340px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 4px 8px 24px rgba(0,0,0,0.5);
+  display: flex; flex-direction: column;
+  border: 2px solid var(--wood-dark);
+  align-self: stretch;
+}
+
+/* Tab bar */
+.workshop-tabs {
+  display: flex;
+  background: linear-gradient(180deg, #7a5535 0%, #5a3518 100%);
+  border-bottom: 2px solid var(--wood-dark);
+}
+.wtab {
+  flex: 1;
+  font-family: 'Cinzel', serif;
+  font-size: .58rem;
+  letter-spacing: .5px;
+  color: rgba(245,230,200,0.6);
+  background: transparent;
+  border: none;
+  padding: .38rem .2rem;
+  cursor: pointer;
+  transition: all .2s;
+  border-right: 1px solid rgba(0,0,0,0.25);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.wtab:last-child { border-right: none; }
+.wtab:hover { color: var(--parch-light); background: rgba(255,255,255,0.07); }
+.wtab.active {
+  color: var(--parch-light);
+  background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.1) 100%);
+  box-shadow: inset 0 -2px 0 var(--gold);
+}
+
+/* Shared body container */
+.workshop-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(255,250,220,0.5) 0%, transparent 60%),
+    linear-gradient(170deg, var(--parch-light) 0%, var(--parch) 60%, #d0be88 100%);
+  overflow: hidden;
+}
+
+/* ── WHITEBOARD ── */
+.wb-toolbar {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .35rem .5rem;
+  background: rgba(200,175,100,0.35);
+  border-bottom: 1px solid rgba(120,90,40,0.3);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.wb-colors { display: flex; gap: 4px; align-items: center; }
+.wbcol {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  cursor: pointer; transition: transform .15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  padding: 0;
+}
+.wbcol:hover { transform: scale(1.2); }
+.wbcol.active { border-color: var(--gold-light); box-shadow: 0 0 0 2px var(--gold), 0 1px 4px rgba(0,0,0,0.4); transform: scale(1.15); }
+
+.wb-sizes { display: flex; gap: 3px; align-items: center; margin-left: .2rem; }
+.wbsz {
+  width: 22px; height: 22px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(120,90,40,0.35);
+  cursor: pointer; font-size: .7rem; color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s; padding: 0;
+}
+.wbsz:hover { background: rgba(255,255,255,0.8); }
+.wbsz.active { background: var(--wood); color: var(--parch-light); border-color: var(--wood-dark); }
+.wbsz.eraser { font-size: .65rem; }
+
+.wb-clear {
+  margin-left: auto;
+  font-family: 'Cinzel', serif;
+  font-size: .58rem;
+  background: rgba(192,57,43,0.12);
+  color: var(--signal-red);
+  border: 1px solid rgba(192,57,43,0.3);
+  border-radius: 2px;
+  padding: .2rem .45rem;
+  cursor: pointer; transition: all .2s;
+}
+.wb-clear:hover { background: rgba(192,57,43,0.25); }
+
+.wb-canvas {
+  flex: 1;
+  display: block;
+  cursor: crosshair;
+  width: 100%;
+  /* height set by JS */
+  touch-action: none;
+}
+
+/* ── CALCULATOR ── */
+.calc-display-wrap {
+  background: linear-gradient(180deg, rgba(240,228,184,0.98) 0%, rgba(220,205,155,0.98) 100%);
+  border-bottom: 1px solid rgba(120,90,40,0.35);
+  padding: .5rem .7rem .4rem;
+  flex-shrink: 0;
+  min-height: 54px;
+}
+.calc-expr {
+  font-family: 'Crimson Text', serif;
+  font-size: .85rem;
+  color: var(--ink-faded);
+  min-height: 1em;
+  word-break: break-all;
+  line-height: 1.3;
+}
+.calc-result {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--wood-dark);
+  text-align: right;
+  line-height: 1.2;
+  min-height: 1.5em;
+}
+.calc-result.error { color: var(--signal-red); font-size: .9rem; }
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  padding: .4rem;
+  flex: 1;
+}
+.calc-btn {
+  font-family: 'Crimson Text', serif;
+  font-size: .95rem; font-weight: 600;
+  background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(235,215,165,0.7) 100%);
+  border: 1px solid rgba(120,90,40,0.3);
+  border-radius: 3px;
+  color: var(--ink);
+  cursor: pointer;
+  padding: .35rem .2rem;
+  transition: all .12s;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset, 0 1px 2px rgba(0,0,0,0.12);
+  line-height: 1;
+}
+.calc-btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.calc-btn:active { transform: translateY(0); filter: brightness(0.95); }
+.calc-fn {
+  background: linear-gradient(180deg, rgba(220,200,140,0.8) 0%, rgba(195,170,100,0.8) 100%);
+  font-size: .78rem;
+  color: var(--wood-dark);
+}
+.calc-op {
+  background: linear-gradient(180deg, rgba(107,68,35,0.2) 0%, rgba(61,32,16,0.25) 100%);
+  color: var(--wood);
+  font-weight: 700;
+}
+.calc-clr { color: var(--signal-red) !important; }
+.calc-eq {
+  background: linear-gradient(180deg, var(--wood-light) 0%, var(--wood) 100%);
+  color: var(--parch-light);
+  font-family: 'Cinzel', serif;
+  font-size: .85rem;
+  letter-spacing: 1px;
+  border-color: var(--wood-dark);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.12) inset;
+}
+
+/* ── NOTES ── */
+.notes-textarea {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  background: rgba(252,245,220,0.85);
+  border: none;
+  outline: none;
+  padding: .6rem .7rem;
+  font-family: 'Crimson Text', serif;
+  font-size: .88rem;
+  line-height: 1.75;
+  color: var(--ink);
+  /* Ruled line background */
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    rgba(120,90,40,0.12) 27px,
+    rgba(120,90,40,0.12) 28px
+  );
+  background-color: rgba(252,245,220,0.9);
+}
+.notes-textarea::placeholder { color: var(--ink-faded); font-style: italic; }
+
+.notes-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .3rem .6rem;
+  background: rgba(200,175,100,0.35);
+  border-top: 1px solid rgba(120,90,40,0.25);
+  flex-shrink: 0;
+}
+.notes-hint {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: .65rem;
+  color: var(--ink-faded);
+}
+
 </style>
 </head>
 <body>
@@ -977,6 +1201,88 @@ canvas#intersection-canvas {
       </div><!-- /control-panel-body -->
     </div><!-- /control-panel -->
 
+
+    <!-- ══ SCHOLAR'S WORKSHOP — whiteboard + calculator ══ -->
+    <div class="workshop-panel parch-panel" style="padding:0;">
+      <div class="wood-header">
+        <span style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--parch-light);letter-spacing:2px;text-transform:uppercase;text-shadow:0 1px 2px rgba(0,0,0,0.5);">
+          ✎ Scholar's Workshop
+        </span>
+        <div style="display:flex;gap:4px;"><div class="nail"></div><div class="nail"></div></div>
+      </div>
+      <div class="workshop-tabs">
+        <button class="wtab active" onclick="switchTab('whiteboard',this)">📋 Whiteboard</button>
+        <button class="wtab" onclick="switchTab('calculator',this)">🔢 Calculator</button>
+        <button class="wtab" onclick="switchTab('notes',this)">📝 Notes</button>
+      </div>
+      <!-- WHITEBOARD TAB -->
+      <div class="workshop-body" id="tab-whiteboard">
+        <div class="wb-toolbar">
+          <div class="wb-colors">
+            <button class="wbcol active" data-col="#2c1810" style="background:#2c1810" onclick="setDrawColor(this,'#2c1810')" title="Ink"></button>
+            <button class="wbcol" data-col="#c0392b" style="background:#c0392b" onclick="setDrawColor(this,'#c0392b')" title="Red"></button>
+            <button class="wbcol" data-col="#2e7d32" style="background:#2e7d32" onclick="setDrawColor(this,'#2e7d32')" title="Green"></button>
+            <button class="wbcol" data-col="#1a5276" style="background:#1a5276" onclick="setDrawColor(this,'#1a5276')" title="Blue"></button>
+            <button class="wbcol" data-col="#c07010" style="background:#c07010" onclick="setDrawColor(this,'#c07010')" title="Amber"></button>
+          </div>
+          <div class="wb-sizes">
+            <button class="wbsz active" data-sz="2" onclick="setDrawSize(this,2)" title="Fine">·</button>
+            <button class="wbsz" data-sz="4" onclick="setDrawSize(this,4)" title="Medium">●</button>
+            <button class="wbsz" data-sz="9" onclick="setDrawSize(this,9)" title="Thick">⬤</button>
+            <button class="wbsz eraser" data-sz="18" onclick="setEraser(this)" title="Eraser">⌫</button>
+          </div>
+          <button class="wb-clear" onclick="clearWhiteboard()" title="Clear all">✕ Clear</button>
+        </div>
+        <canvas id="whiteboard-canvas" class="wb-canvas"></canvas>
+      </div>
+      <!-- CALCULATOR TAB -->
+      <div class="workshop-body" id="tab-calculator" style="display:none;">
+        <div class="calc-display-wrap">
+          <div class="calc-expr" id="calc-expr">0</div>
+          <div class="calc-result" id="calc-result"></div>
+        </div>
+        <div class="calc-grid">
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.sqrt(')">√</button>
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.pow(')">xⁿ</button>
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.PI')">π</button>
+          <button class="calc-btn calc-op calc-clr" onclick="calcClear()">C</button>
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.sin(')">sin</button>
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.cos(')">cos</button>
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.tan(')">tan</button>
+          <button class="calc-btn calc-op" onclick="calcInput('(')">(</button>
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.log(')">ln</button>
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.abs(')">|x|</button>
+          <button class="calc-btn calc-fn" onclick="calcFn('Math.E')">e</button>
+          <button class="calc-btn calc-op" onclick="calcInput(')')">)</button>
+          <button class="calc-btn" onclick="calcInput('7')">7</button>
+          <button class="calc-btn" onclick="calcInput('8')">8</button>
+          <button class="calc-btn" onclick="calcInput('9')">9</button>
+          <button class="calc-btn calc-op" onclick="calcInput('/')">÷</button>
+          <button class="calc-btn" onclick="calcInput('4')">4</button>
+          <button class="calc-btn" onclick="calcInput('5')">5</button>
+          <button class="calc-btn" onclick="calcInput('6')">6</button>
+          <button class="calc-btn calc-op" onclick="calcInput('*')">×</button>
+          <button class="calc-btn" onclick="calcInput('1')">1</button>
+          <button class="calc-btn" onclick="calcInput('2')">2</button>
+          <button class="calc-btn" onclick="calcInput('3')">3</button>
+          <button class="calc-btn calc-op" onclick="calcInput('-')">−</button>
+          <button class="calc-btn" onclick="calcInput('0')">0</button>
+          <button class="calc-btn" onclick="calcInput('.')">.</button>
+          <button class="calc-btn calc-op" onclick="calcBackspace()">⌫</button>
+          <button class="calc-btn calc-op" onclick="calcInput('+')">+</button>
+          <button class="calc-btn calc-eq" style="grid-column:span 4" onclick="calcEquals()">=</button>
+        </div>
+      </div>
+      <!-- NOTES TAB -->
+      <div class="workshop-body" id="tab-notes" style="display:none;flex-direction:column;">
+        <textarea id="notes-area" class="notes-textarea" placeholder="Jot down your working…"></textarea>
+        <div class="notes-footer">
+          <span class="notes-hint">Notes persist during your session</span>
+          <button class="wb-clear" onclick="document.getElementById('notes-area').value=''">✕ Clear</button>
+        </div>
+      </div>
+    </div><!-- /workshop-panel -->
+
   </div><!-- /game-layout -->
 </div><!-- /screen-game -->
 
@@ -1145,7 +1451,7 @@ function initGame(){
   simInterval=setInterval(()=>{drawIntersection();drawMathOverlay();},50);
 
   // Re-resolve canvas size if layout shifts after a frame
-  requestAnimationFrame(()=>{ resizeCanvases(); });
+  requestAnimationFrame(()=>{ resizeCanvases(); setTimeout(initWhiteboard, 100); });
 }
 function clearIntervals(){
   if(timerInterval)clearInterval(timerInterval);
@@ -1853,6 +2159,223 @@ if(!CanvasRenderingContext2D.prototype.roundRect){
     this.arcTo(x,y+h,x,y+h-r,r);this.lineTo(x,y+r);this.arcTo(x,y,x+r,y,r);this.closePath();return this;
   };
 }
+
+// ═══════════════════ SCHOLAR'S WORKSHOP ═══════════════════
+
+// ── Tab switching ──
+function switchTab(name, btn) {
+  ['whiteboard','calculator','notes'].forEach(t => {
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = 'none';
+  });
+  document.querySelectorAll('.wtab').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById('tab-'+name);
+  if(target) target.style.display = name === 'notes' ? 'flex' : 'flex';
+  if(btn) btn.classList.add('active');
+  if(name === 'whiteboard') initWhiteboard();
+}
+
+// ── WHITEBOARD ──
+let wbCtx = null, wbDrawing = false, wbColor = '#2c1810', wbSize = 2, wbErasing = false;
+
+function initWhiteboard() {
+  const cv = document.getElementById('whiteboard-canvas');
+  if(!cv || cv._wbInit) return;
+  cv._wbInit = true;
+
+  // Size the canvas to fill its container
+  const body = document.getElementById('tab-whiteboard');
+  const toolbar = body.querySelector('.wb-toolbar');
+  const availH = body.clientHeight - toolbar.offsetHeight - 4;
+  cv.width  = body.clientWidth  || 300;
+  cv.height = Math.max(availH, 120);
+  cv.style.height = cv.height + 'px';
+
+  wbCtx = cv.getContext('2d');
+  fillWbBackground();
+
+  // Mouse events
+  cv.addEventListener('mousedown',  wbStart);
+  cv.addEventListener('mousemove',  wbMove);
+  cv.addEventListener('mouseup',    wbEnd);
+  cv.addEventListener('mouseleave', wbEnd);
+  // Touch events
+  cv.addEventListener('touchstart', e => { e.preventDefault(); wbStart(e.touches[0]); }, {passive:false});
+  cv.addEventListener('touchmove',  e => { e.preventDefault(); wbMove(e.touches[0]); }, {passive:false});
+  cv.addEventListener('touchend',   wbEnd, {passive:false});
+}
+
+function fillWbBackground() {
+  if(!wbCtx) return;
+  const cv = document.getElementById('whiteboard-canvas');
+  // Warm parchment
+  const g = wbCtx.createLinearGradient(0,0,0,cv.height);
+  g.addColorStop(0, '#faf3e0');
+  g.addColorStop(1, '#f0e2b8');
+  wbCtx.fillStyle = g;
+  wbCtx.fillRect(0,0,cv.width,cv.height);
+  // Faint ruled lines
+  wbCtx.strokeStyle = 'rgba(120,90,40,0.1)';
+  wbCtx.lineWidth = 0.8;
+  for(let y = 24; y < cv.height; y += 24) {
+    wbCtx.beginPath(); wbCtx.moveTo(0,y); wbCtx.lineTo(cv.width,y); wbCtx.stroke();
+  }
+  // Left margin line
+  wbCtx.strokeStyle = 'rgba(180,100,80,0.15)';
+  wbCtx.lineWidth = 1;
+  wbCtx.beginPath(); wbCtx.moveTo(22,0); wbCtx.lineTo(22,cv.height); wbCtx.stroke();
+}
+
+function wbPos(e) {
+  const cv = document.getElementById('whiteboard-canvas');
+  const r  = cv.getBoundingClientRect();
+  return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+function wbStart(e) {
+  if(!wbCtx) initWhiteboard();
+  wbDrawing = true;
+  const p = wbPos(e);
+  wbCtx.beginPath();
+  wbCtx.moveTo(p.x, p.y);
+}
+function wbMove(e) {
+  if(!wbDrawing || !wbCtx) return;
+  const p = wbPos(e);
+  if(wbErasing) {
+    wbCtx.save();
+    wbCtx.globalCompositeOperation = 'destination-out';
+    wbCtx.fillStyle = 'rgba(0,0,0,1)';
+    wbCtx.beginPath(); wbCtx.arc(p.x, p.y, wbSize/2, 0, Math.PI*2); wbCtx.fill();
+    wbCtx.restore();
+    // Refill with background where erased
+    wbCtx.save();
+    wbCtx.globalCompositeOperation = 'destination-over';
+    const cv = document.getElementById('whiteboard-canvas');
+    const g = wbCtx.createLinearGradient(0,0,0,cv.height);
+    g.addColorStop(0, '#faf3e0'); g.addColorStop(1, '#f0e2b8');
+    wbCtx.fillStyle = g;
+    wbCtx.fillRect(0,0,cv.width,cv.height);
+    wbCtx.restore();
+  } else {
+    wbCtx.lineTo(p.x, p.y);
+    wbCtx.strokeStyle = wbColor;
+    wbCtx.lineWidth   = wbSize;
+    wbCtx.lineCap     = 'round';
+    wbCtx.lineJoin    = 'round';
+    wbCtx.stroke();
+    wbCtx.beginPath(); wbCtx.moveTo(p.x, p.y);
+  }
+}
+function wbEnd() { wbDrawing = false; }
+
+function setDrawColor(btn, col) {
+  wbColor = col; wbErasing = false;
+  document.querySelectorAll('.wbcol').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.wbsz').forEach(b => b.classList.remove('active'));
+  // Re-activate last non-eraser size
+  const lastSz = document.querySelector('.wbsz:not(.eraser).active') ||
+                 document.querySelector('.wbsz:not(.eraser)');
+  if(lastSz) lastSz.classList.add('active');
+}
+function setDrawSize(btn, sz) {
+  wbSize = sz; wbErasing = false;
+  document.querySelectorAll('.wbsz').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setEraser(btn) {
+  wbErasing = true; wbSize = 18;
+  document.querySelectorAll('.wbsz').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function clearWhiteboard() {
+  if(!wbCtx) return;
+  const cv = document.getElementById('whiteboard-canvas');
+  wbCtx.clearRect(0,0,cv.width,cv.height);
+  fillWbBackground();
+}
+
+// ── CALCULATOR ──
+let calcExpr = '';
+
+function calcInput(ch) {
+  if(calcExpr === '0' && /[0-9]/.test(ch)) calcExpr = ch;
+  else calcExpr += ch;
+  updateCalcDisplay();
+}
+function calcFn(fn) {
+  if(calcExpr === '0') calcExpr = fn;
+  else calcExpr += fn;
+  updateCalcDisplay();
+}
+function calcClear() {
+  calcExpr = ''; 
+  document.getElementById('calc-expr').textContent = '0';
+  document.getElementById('calc-result').textContent = '';
+  document.getElementById('calc-result').className = 'calc-result';
+}
+function calcBackspace() {
+  calcExpr = calcExpr.slice(0, -1);
+  updateCalcDisplay();
+}
+function calcEquals() {
+  if(!calcExpr) return;
+  try {
+    // Safe-ish eval: only allow math chars + Math.*
+    const safe = calcExpr
+      .replace(/Math\.sin/g,'Math.sin').replace(/Math\.cos/g,'Math.cos')
+      .replace(/Math\.tan/g,'Math.tan').replace(/Math\.sqrt/g,'Math.sqrt')
+      .replace(/Math\.pow/g,'Math.pow').replace(/Math\.log/g,'Math.log')
+      .replace(/Math\.abs/g,'Math.abs').replace(/Math\.PI/g,'Math.PI')
+      .replace(/Math\.E/g,'Math.E');
+    // eslint-disable-next-line no-new-func
+    const result = Function('"use strict"; return (' + safe + ')')();
+    const resEl = document.getElementById('calc-result');
+    if(typeof result === 'number' && isFinite(result)) {
+      const display = Math.abs(result) < 1e-10 ? '0' :
+                      Number.isInteger(result) ? String(result) :
+                      parseFloat(result.toFixed(8)).toString();
+      resEl.textContent = '= ' + display;
+      resEl.className = 'calc-result';
+    } else {
+      resEl.textContent = 'Error';
+      resEl.className = 'calc-result error';
+    }
+  } catch(e) {
+    const resEl = document.getElementById('calc-result');
+    resEl.textContent = 'Syntax error';
+    resEl.className = 'calc-result error';
+  }
+}
+function updateCalcDisplay() {
+  const el = document.getElementById('calc-expr');
+  // Pretty-print for display
+  el.textContent = calcExpr
+    .replace(/Math\.sqrt\(/g,'√(').replace(/Math\.pow\(/g,'pow(')
+    .replace(/Math\.sin\(/g,'sin(').replace(/Math\.cos\(/g,'cos(')
+    .replace(/Math\.tan\(/g,'tan(').replace(/Math\.log\(/g,'ln(')
+    .replace(/Math\.abs\(/g,'|').replace(/Math\.PI/g,'π')
+    .replace(/Math\.E/g,'e') || '0';
+}
+
+// Keyboard support for calculator
+document.addEventListener('keydown', function(e) {
+  const calcTab = document.getElementById('tab-calculator');
+  if(!calcTab || calcTab.style.display === 'none') return;
+  if(/[0-9]/.test(e.key))     { calcInput(e.key); return; }
+  if(e.key === '+')            { calcInput('+'); return; }
+  if(e.key === '-')            { calcInput('-'); return; }
+  if(e.key === '*')            { calcInput('*'); return; }
+  if(e.key === '/')            { e.preventDefault(); calcInput('/'); return; }
+  if(e.key === '.')            { calcInput('.'); return; }
+  if(e.key === '(')            { calcInput('('); return; }
+  if(e.key === ')')            { calcInput(')'); return; }
+  if(e.key === 'Enter' || e.key === '=') { calcEquals(); return; }
+  if(e.key === 'Backspace')    { calcBackspace(); return; }
+  if(e.key === 'Escape')       { calcClear(); return; }
+});
+
+
 </script>
 </body>
 </html>
